@@ -17,18 +17,26 @@ export function getSearchlist(params) {
 }
 
 export function addEditor(params) {
-    return request({
-      url: '/vue-admin-template/editor/new',
-      method: 'post',
-      data: params
-    })
-  }
-  
-  
-  export function deleteEditor(params) {
-    return request({
-      url: '/vue-admin-template/editor/delete/',
-      method: 'get',
-      params
-    })
-  }
+  return request({
+    url: '/vue-admin-template/editor/new',
+    method: 'post',
+    data: params
+  })
+}
+
+
+export function deleteEditor(params) {
+  return request({
+    url: '/vue-admin-template/editor/delete',
+    method: 'get',
+    params
+  })
+}
+
+export function updateEditor(params) {
+  return request({
+    url: '/vue-admin-template/editor/update',
+    method: 'post',
+    data: params
+  })
+}

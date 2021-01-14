@@ -9,7 +9,7 @@ const data = Mock.mock({
     'gender|1': ['男', '女'],
     phoneNum: /^1[385][1-9]\d{8}/,
     email: '@email',
-    date: '@date("yyyy-MM-dd HH:mm:ss")',
+    date: '@date("yyyy-MM-dd  HH:mm:ss")',
     value: 1
   }]
 })
@@ -57,7 +57,7 @@ export default [{
     type: 'get',
     response: config => {
       var id = config.query.id;
-      const items = data.items
+      const items = data.items;
       var index = items.findIndex(item => {
         if (item.id == id) {
           return true;
@@ -76,12 +76,37 @@ export default [{
     url: '/vue-admin-template/editor/new',
     type: 'post',
     response: config => {
-      var product = config.body;
-      data.items.push(product);
+      var editor = config.body;
+      data.items.push(editor);
       return {
         code: 20000,
         data: {
           message: "添加员工成功"
+        }
+      }
+    }
+  },
+  {
+    url: '/vue-admin-template/editor/update',
+    type: 'post',
+    response: config => {
+      const list = config.body[1].value
+      const listQuery = config.body[2].listQuery
+      const {
+         search = ""
+      } =listQuery
+      let items = data.items
+      let maps = items.map(element => {
+        if (element.id == list.id) {
+          element = list
+        }
+        return element
+      });
+      data.items = maps
+      return {
+        code: 20000,
+        data: {
+          message: "添加商品成功"
         }
       }
     }

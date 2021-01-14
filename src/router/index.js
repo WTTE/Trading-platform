@@ -57,7 +57,7 @@ export const constantRoutes = [{
       }
     }]
   },
- 
+
   // 404 page must be placed at the end !!!
   {
     path: '*',
@@ -67,14 +67,13 @@ export const constantRoutes = [{
 ]
 
 // asyncRouterMap：需要进行权限过滤的页面
-export const asyncRoutes = [
-  {
+export const asyncRoutes = [{
     path: '/product',
     component: Layout,
     redirect: '/product/index',
     name: 'Product',
     meta: {
-      roles: ['editor','admin','postman'],
+      roles: ['editor', 'admin', 'postman'],
       title: '商品列表',
       icon: 'shopping'
     },
@@ -112,7 +111,7 @@ export const asyncRoutes = [
     redirect: '/example/table',
     name: 'Example',
     meta: {
-      roles: ['editor','admin'],
+      roles: ['editor', 'admin'],
       title: '订单查询',
       icon: 'example'
     },
@@ -138,8 +137,8 @@ export const asyncRoutes = [
   {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
+    redirect: '/permission/info',
+    // alwaysShow: true, 
     name: 'Permission',
     meta: {
       title: '信息管理',
@@ -163,6 +162,11 @@ export const asyncRoutes = [
           title: '员工信息',
           roles: ['admin']
         }
+      },
+      {
+        path: 'newEditor',
+        name: 'NewEditor',
+        component: () => import('@/views/admin/newEditor'),
       },
       {
         path: 'admin',

@@ -20,7 +20,7 @@ export function addProduct(params) {
 
 export function deleteProduct(params) {
   return request({
-    url: '/vue-admin-template/product/delete/',
+    url: '/vue-admin-template/product/delete',
     method: 'get',
     params
   })
