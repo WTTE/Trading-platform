@@ -1,45 +1,51 @@
 import Mock from 'mockjs'
 
+
 const data = Mock.mock({
-  'items|50': [{
+  'items|30': [{
     id: '@increment()',
     name: '@cname()',
-    workNum: '@zip',
-    'authority|1': ['安卓回收订单', '安卓订购订单', '苹果回收订单', '苹果订购订单'],
+    'attendance|1': ['已派单', '未派单'],
+    email: '@email()',
+    workName: '@zip',
     'gender|1': ['男', '女'],
     phoneNum: /^1[385][1-9]\d{8}/,
     email: '@email',
-    date: '@date("yyyy-MM-dd  HH:mm:ss")',
+    date: '@datetime()',
     value: 1
   }]
 })
 
 export default [{
-    url: '/vue-admin-template/editor/list',
+    url: '/vue-admin-template/postman/list',
     type: 'get',
     response: config => {
+      const {
+        page = 1, limit = 10, search = ""
+      } = config.query
+      // console.log(config.query);
       const items = data.items
       return {
         code: 20000,
         data: {
           total: items.length,
-          items: items
+          items: items.slice((page - 1) * limit, limit * page)
         }
       }
     }
   },
   {
-    url: '/vue-admin-template/editor/searchlist',
+    url: '/vue-admin-template/postman/searchlist',
     type: 'get',
     response: config => {
+
       const {
-        search = ""
+        page = 1, limit = 10, search = ""
       } = config.query
-      // console.log(page, limit, search, "00000000000000000");
-      console.log(config.query)
+      console.log(page, limit, search, "00000000000000000");
       const items = data.items
       const filters = items.filter((item) => {
-        if (item.name.indexOf(search) != -1 || item.workNum.indexOf(search) != -1) {
+        if (item.workName.indexOf(search) != -1 || item.name.indexOf(search) != -1) {
           return item;
         }
       })
@@ -53,11 +59,11 @@ export default [{
     }
   },
   {
-    url: '/vue-admin-template/editor/delete',
+    url: '/vue-admin-template/postman/delete/',
     type: 'get',
     response: config => {
       var id = config.query.id;
-      const items = data.items;
+      const items = data.items
       var index = items.findIndex(item => {
         if (item.id == id) {
           return true;
@@ -67,42 +73,18 @@ export default [{
       return {
         code: 20000,
         data: {
-          message: "删除员工成功"
+          message: "删除商品成功"
         }
       }
     }
   },
   {
-    url: '/vue-admin-template/editor/new',
+    url: '/vue-admin-template/postman/new',
     type: 'post',
     response: config => {
-      var editor = config.body;
-      data.items.unshift(editor);
-      return {
-        code: 20000,
-        data: {
-          message: "添加员工成功"
-        }
-      }
-    }
-  },
-  {
-    url: '/vue-admin-template/editor/update',
-    type: 'post',
-    response: config => {
-      const list = config.body[1].value
-      const listQuery = config.body[2].listQuery
-      const {
-         search = ""
-      } =listQuery
-      let items = data.items
-      let maps = items.map(element => {
-        if (element.id == list.id) {
-          element = list
-        }
-        return element
-      });
-      data.items = maps
+      console.log(config.body);
+      var postman = config.body;
+      data.items.unshift(postman);
       return {
         code: 20000,
         data: {
@@ -110,5 +92,32 @@ export default [{
         }
       }
     }
-  }
+  },
+  {
+    url: '/vue-admin-template/postman/uplist',
+    type: 'post',
+    response: config => {
+      const admin = config.body[1].value
+      const listQuery = config.body[2].listQuery
+      const {
+        page = 1, limit = 10, search = ""
+      } =listQuery
+      let items = data.items
+      let maps = items.map(element => {
+        if (element.id == admin.id) {
+          element = admin
+        }
+        return element
+      });
+      data.items = maps
+      return {
+        code: 20000,
+        data: {
+          // total: maps.length,
+          // items: maps.slice((page - 1) * limit, limit * page)
+          message: "添加商品成功"
+        }
+      }
+    }
+  },
 ]

@@ -1,11 +1,11 @@
 import Mock from 'mockjs'
 
 const data = Mock.mock({
-  'items|50': [{
+  'items|10': [{
     id: '@increment()',
     name: '@cname()',
     workNum: '@zip',
-    'authority|1': ['安卓回收订单', '安卓订购订单', '苹果回收订单', '苹果订购订单'],
+    'authority|1': ['超级管理员', '普通管理员'],
     'gender|1': ['男', '女'],
     phoneNum: /^1[385][1-9]\d{8}/,
     email: '@email',
@@ -15,7 +15,7 @@ const data = Mock.mock({
 })
 
 export default [{
-    url: '/vue-admin-template/editor/list',
+    url: '/vue-admin-template/admin/list',
     type: 'get',
     response: config => {
       const items = data.items
@@ -29,7 +29,7 @@ export default [{
     }
   },
   {
-    url: '/vue-admin-template/editor/searchlist',
+    url: '/vue-admin-template/admin/searchlist',
     type: 'get',
     response: config => {
       const {
@@ -53,7 +53,7 @@ export default [{
     }
   },
   {
-    url: '/vue-admin-template/editor/delete',
+    url: '/vue-admin-template/admin/delete',
     type: 'get',
     response: config => {
       var id = config.query.id;
@@ -73,11 +73,11 @@ export default [{
     }
   },
   {
-    url: '/vue-admin-template/editor/new',
+    url: '/vue-admin-template/admin/new',
     type: 'post',
     response: config => {
-      var editor = config.body;
-      data.items.unshift(editor);
+      var admin = config.body;
+      data.items.unshift(admin);
       return {
         code: 20000,
         data: {
@@ -87,7 +87,7 @@ export default [{
     }
   },
   {
-    url: '/vue-admin-template/editor/update',
+    url: '/vue-admin-template/admin/update',
     type: 'post',
     response: config => {
       const list = config.body[1].value

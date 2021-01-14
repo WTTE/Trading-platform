@@ -61,7 +61,7 @@
         style="width: 100%"
         border
       >
-        <el-table-column label="编号" width="80" align="center" fixed>
+        <el-table-column label="序号" width="80" align="center" fixed>
           <!-- $index+1使删除后列表序号从1重新开始排列 -->
           <template slot-scope="scope">{{ scope.$index + 1 }}</template>
         </el-table-column>

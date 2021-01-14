@@ -178,6 +178,11 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: 'newAdmin',
+        name: 'NewAdmin',
+        component: () => import('@/views/admin/newAdmin'),
+      },
+      {
         path: 'postman',
         component: () => import('@/views/admin/postman'),
         name: 'PostmanInfo',
