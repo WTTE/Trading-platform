@@ -7,3 +7,18 @@ export function getList(params) {
     params
   })
 }
+export function deleteProduct(params) {
+  return request({
+      url: '/vue-admin-template/product/delete',
+      method: 'get',
+      params
+  })
+}
+export function getSearchList(params) {
+  return request({
+    url: '/vue-admin-template/postman/searchlist',
+    method: 'get',
+    params
+  })
+}
+

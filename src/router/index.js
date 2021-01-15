@@ -59,11 +59,11 @@ export const constantRoutes = [{
   },
 
   // 404 page must be placed at the end !!!
-  {
-    path: '*',
-    redirect: '@/views/chart/index',
-    hidden: true
-  }
+  // {
+  //   path: '*',
+  //   redirect: '/chart',
+  //   hidden: true
+  // }
 ]
 
 // asyncRouterMap：需要进行权限过滤的页面
@@ -73,7 +73,7 @@ export const asyncRoutes = [{
     redirect: '/product/index',
     name: 'Product',
     meta: {
-      roles: ['editor', 'admin', 'postman'],
+      roles: ['editor', 'admin'],
       title: '商品列表',
       icon: 'shopping'
     },
@@ -84,6 +84,16 @@ export const asyncRoutes = [{
         meta: {
           title: '苹果专区'
         }
+      },
+      {
+        path: 'edit-apple',
+        name: 'Edit-apple',
+        component: () => import('@/views/product/edit-apple')
+      },
+      {
+        path: 'edit-android',
+        name: 'Edit-android',
+        component: () => import('@/views/product/edit-android')
       },
       {
         path: 'new',
@@ -122,6 +132,13 @@ export const asyncRoutes = [{
         meta: {
           title: '订购订单'
         }
+      },
+      {
+        path: 'orderDetail',
+        name: 'orderDetail',
+        component: () => import('@/views/table/orderDetail'),
+        meta: {title: '订单详情'},
+        hidden : true
       },
       {
         path: 'tree',

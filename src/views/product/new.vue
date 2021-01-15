@@ -8,27 +8,27 @@
         label-width="200px"
         class="demo-ruleForm"
       >
-        <div>苹果</div>
+        
         <el-form-item label="商品id" prop="id">
-          <el-input v-model="ruleForm.id"></el-input>
+          <el-input v-model.number="ruleForm.id"></el-input>
         </el-form-item>
-        <el-form-item label="商品名称" prop="title">
-          <el-input v-model="ruleForm.title"></el-input>
+        <el-form-item label="商品名称" prop="phoneName">
+          <el-input v-model="ruleForm.phoneName"></el-input>
         </el-form-item>
-        <el-form-item label="商品摘要" prop="zhaiyao">
-          <el-input v-model="ruleForm.zhaiyao"></el-input>
+        <el-form-item label="商品价格" prop="prize">
+          <el-input v-model.number="ruleForm.prize"></el-input>
         </el-form-item>
-        <el-form-item label="商品点击次数" prop="click">
-          <el-input v-model.number="ruleForm.click"></el-input>
+        <el-form-item label="储存容量" prop="storage">
+          <el-input v-model="ruleForm.storage"></el-input>
         </el-form-item>
-        <el-form-item label="商品售价" prop="sell_price">
-          <el-input v-model="ruleForm.sell_price"></el-input>
+        <el-form-item label="商品描述" prop="desc">
+          <el-input v-model="ruleForm.desc"></el-input>
         </el-form-item>
-        <el-form-item label="商品市场价格" prop="market_price">
-          <el-input v-model="ruleForm.market_price"></el-input>
+        <el-form-item label="发布用户" prop="editor">
+          <el-input v-model="ruleForm.editor"></el-input>
         </el-form-item>
-        <el-form-item label="商品库存" prop="stock_quantity">
-          <el-input v-model.number="ruleForm.stock_quantity"></el-input>
+        <el-form-item label="联系方式" prop="phoneNumber">
+          <el-input v-model.number="ruleForm.phoneNumber"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -39,7 +39,7 @@
   </el-container>
 </template>
 <script>
-import { addProduct } from "@/api/product";
+import { addApple } from "@/api/apple";
 export default {
   data() {
     //表单校验：检验是否是数字的方法
@@ -55,48 +55,78 @@ export default {
         }
       }, 200);
     };
+    //检验是否是电话的方法
+    var checkPhoneNumber = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("信息不能为空"));
+      }
+      if(!(/^1[34578]\d{9}$/.test(value))){
+           callback(new Error("请输入正确的联系方式"));
+        } else{
+           callback();
+        }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error("请输入数字值"));
+        }  else {
+          callback();
+        }
+        
+      }, 200);
+    };
     return {
       ruleForm: {
         id: "",
-        title: "",
-        zhaiyao: "",
-        sell_price: "",
-        market_price: "",
-        stock_quantity: "",
-        click: "",
+        phoneName: "",
+        prize: "",
+        storage: "",
+        desc: "",
+        editor: "",
+        phoneNumber:"",
+       
       },
       //表单校验规则
       rules: {
         id: [
-          { required: true, message: "请输入商品id", trigger: "blur" },
-          { min: 1, max: 20, message: "长度在 1 到 20 个字符", trigger: "blur" }
+          { required: true, validator: checkNumber, message: "请输入商品id", trigger: "blur" },
+         
         ],
-        title: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
-        zhaiyao: [
-          { required: true, message: "请输入商品摘要", trigger: "blur" }
+        phoneName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
+        prize: [
+          { required: true, validator: checkNumber, message: "请输入商品价格", trigger: "blur" }
         ],
-        click: [{ required: true, validator: checkNumber, trigger: "blur" }],
-        sell_price: [
-          { required: true, message: "请输入商品售价", trigger: "blur" }
+        // click: [{ required: true, validator: checkNumber, trigger: "blur" }],
+        storage: [
+          { required: true, message: "请输入储存容量", trigger: "blur" }
         ],
-        market_price: [
-          { required: true, message: "请输入商品市场价格", trigger: "blur" }
+        desc: [
+          { required: true, message: "请输入商品描述", trigger: "blur" }
         ],
-        stock_quantity: [
-          { validator: checkNumber, trigger: "blur", required: true }
+        editor: [
+          {  message: "请输入发布用户", trigger: "blur", required: true }
+        ],
+        phoneNumber: [
+          { validator: checkPhoneNumber,  trigger: "blur", required: true },
+
         ]
       }
     };
-  },
+  },  
   methods: {
     //提交表单
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          addProduct(this.ruleForm).then(response => {
+          addApple(this.ruleForm).then(response => {
+            this.$message({
+                type: 'success',
+                message: '提交成功',
+                duration:1000
+              });
             // console.log("收到响应数据", response);
             this.$router.push("/product/index");
           });
+         
         } else {
           console.log("error submit!!");
           return false;

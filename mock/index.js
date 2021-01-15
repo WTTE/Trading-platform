@@ -7,6 +7,9 @@ import table from './table'
 import product from './product'
 import postman from './postman'
 import admin from './admin'
+import order from './order'
+import apple from './apple'
+import android from './android'
 
 const mocks = [
   ...editor,
@@ -14,7 +17,10 @@ const mocks = [
   ...table,
   ...product,
   ...postman,
-  ...admin
+  ...admin,
+  ...order,
+  ...android,
+  ...apple
 ]
 
 // for front mock

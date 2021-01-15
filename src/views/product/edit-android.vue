@@ -10,7 +10,7 @@
       >
       
         <el-form-item label="商品id" prop="id">
-          <el-input v-model.number="ruleForm.id"></el-input>
+          <el-input v-model="ruleForm.id"> </el-input>
         </el-form-item>
         <el-form-item label="商品名称" prop="phoneName">
           <el-input v-model="ruleForm.phoneName"></el-input>
@@ -28,10 +28,10 @@
           <el-input v-model="ruleForm.editor"></el-input>
         </el-form-item>
         <el-form-item label="联系方式" prop="phoneNumber">
-          <el-input v-model.number="ruleForm.phoneNumber"></el-input>
+          <el-input v-model.number="ruleForm.phoneNumber"> </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">确认修改</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -39,10 +39,10 @@
   </el-container>
 </template>
 <script>
-import { addAndroid } from "@/api/android";
+import { addAndroid} from "@/api/android";
 export default {
   data() {
-    //表单校验：检验是否是数字的方法
+     //表单校验：检验是否是数字的方法
     var checkNumber = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("信息不能为空"));
@@ -83,13 +83,13 @@ export default {
         desc: "",
         editor: "",
         phoneNumber:"",
-       
+      
       },
       //表单校验规则
       rules: {
         id: [
-          { required: true, validator: checkNumber, message: "请输入商品id", trigger: "blur" },
-          
+          { required: true, message: "请输入商品id", trigger: "blur" },
+          { min: 1, max: 8, message: "长度在 1 到 8 个字符", trigger: "blur" }
         ],
         phoneName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
         prize: [
@@ -112,8 +112,9 @@ export default {
       }
     };
   },  
+  
   methods: {
-    //提交表单
+     //提交表单
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -133,7 +134,7 @@ export default {
         }
       });
     },
-    //重置表单
+   // 重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }

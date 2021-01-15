@@ -8,9 +8,9 @@
         label-width="200px"
         class="demo-ruleForm"
       >
-      
+        
         <el-form-item label="商品id" prop="id">
-          <el-input v-model.number="ruleForm.id"></el-input>
+          <el-input v-model="ruleForm.id"></el-input>
         </el-form-item>
         <el-form-item label="商品名称" prop="phoneName">
           <el-input v-model="ruleForm.phoneName"></el-input>
@@ -31,7 +31,7 @@
           <el-input v-model.number="ruleForm.phoneNumber"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">确认修改</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -39,7 +39,7 @@
   </el-container>
 </template>
 <script>
-import { addAndroid } from "@/api/android";
+import { addApple } from "@/api/apple";
 export default {
   data() {
     //表单校验：检验是否是数字的方法
@@ -88,8 +88,8 @@ export default {
       //表单校验规则
       rules: {
         id: [
-          { required: true, validator: checkNumber, message: "请输入商品id", trigger: "blur" },
-          
+          { required: true, message: "请输入商品id", trigger: "blur" },
+          { min: 1, max: 8, message: "长度在 1 到 8 个字符", trigger: "blur" }
         ],
         phoneName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
         prize: [
@@ -117,14 +117,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          addAndroid(this.ruleForm).then(response => {
+          addApple(this.ruleForm).then(response => {
             this.$message({
                 type: 'success',
                 message: '提交成功',
                 duration:1000
               });
             // console.log("收到响应数据", response);
-            this.$router.push("/product/index-android");
+            this.$router.push("/product/index");
           });
          
         } else {
